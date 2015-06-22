@@ -183,6 +183,24 @@ if ! command -v rcup >/dev/null; then
   brew_install_or_upgrade 'rcm'
 fi
 
+git clone git@github.com:jaisonerick/dotfiles.git "$HOME/dotfiles"
+env RCRC=$HOME/dotfiles/rcrc rcup
+
+brew_install_or_upgrade 'zsh-completions'
+
+brew_tap 'caskroom/cask'
+brew_install_or_upgrade 'brew-cask'
+
+brew cask install dropbox
+brew cask install iTerm
+brew cask install u-torrent
+brew cask install google-chrome
+brew cask install paw
+brew cask install dash
+brew cask install spotify
+brew cask install microsoft-office
+brew cask install skype
+
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
