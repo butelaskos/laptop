@@ -192,7 +192,7 @@ brew_tap 'caskroom/cask'
 brew_install_or_upgrade 'brew-cask'
 
 brew cask install dropbox
-brew cask install iTerm
+brew cask install iterm2
 brew cask install u-torrent
 brew cask install google-chrome
 brew cask install paw
@@ -200,6 +200,43 @@ brew cask install dash
 brew cask install spotify
 brew cask install microsoft-office
 brew cask install skype
+brew cask install the-unarchiver
+
+# Set computer name
+sudo scutil --set ComputerName "SDrive"
+sudo scutil --set HostName "SDrive"
+sudo scutil --set LocalHostName "SDrive"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "SDrive"
+
+# Hide the Spotlight icon
+sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+
+# Expanding the save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+# Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+
+# Add ability to toggle between Light and Dark mode in Yosemite using ctrl+opt+cmd+t?
+sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
+
+# Disable the sudden motion sensor (it's not useful for SSDs/current MacBooks)
+sudo pmset -a sms 0
+
+# Disable auto-correct
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Requiring password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# Set Dock to auto-hide
+defaults write com.apple.dock autohide -bool true
 
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
