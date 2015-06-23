@@ -183,7 +183,10 @@ if ! command -v rcup >/dev/null; then
   brew_install_or_upgrade 'rcm'
 fi
 
-git clone git://github.com/jaisonerick/dotfiles.git "$HOME/dotfiles"
+if [ ! -d "$HOME/dotfiles" ]; then
+  git clone git://github.com/jaisonerick/dotfiles.git "$HOME/dotfiles"
+fi
+
 env RCRC=$HOME/dotfiles/rcrc rcup
 
 brew_install_or_upgrade 'zsh-completions'
@@ -202,6 +205,7 @@ brew cask install microsoft-office
 brew cask install skype
 brew cask install the-unarchiver
 brew cask install gitifier
+brew cask install google-hangouts
 
 # Set computer name
 sudo scutil --set ComputerName "SDrive"
