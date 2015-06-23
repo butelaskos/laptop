@@ -217,7 +217,9 @@ brew cask install dash
 fancy_echo "Install spotify..."
 brew cask install spotify
 
+fancy_echo "Install Office..."
 brew cask install microsoft-office
+
 brew cask install skype
 brew cask install the-unarchiver
 brew cask install gitifier
