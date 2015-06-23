@@ -268,6 +268,9 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 # Set Dock to auto-hide
 defaults write com.apple.dock autohide -bool true
 
+# Set touchpad to click on tap
+sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false
+
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
