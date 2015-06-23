@@ -184,9 +184,11 @@ if ! command -v rcup >/dev/null; then
 fi
 
 if [ ! -d "$HOME/dotfiles" ]; then
+  fancy_echo "Installing dotfiles ..."
   git clone git://github.com/jaisonerick/dotfiles.git "$HOME/dotfiles"
 fi
 
+fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
 
 brew_install_or_upgrade 'zsh-completions'
@@ -194,13 +196,27 @@ brew_install_or_upgrade 'zsh-completions'
 brew_tap 'caskroom/cask'
 brew_install_or_upgrade 'brew-cask'
 
+fancy_echo "Install Dropbox..."
 brew cask install dropbox
+
+fancy_echo "Install iTerm 2..."
 brew cask install iterm2
+
+fancy_echo "Install uTorrent..."
 brew cask install utorrent
+
+fancy_echo "Install Google Chrome..."
 brew cask install google-chrome
+
+fancy_echo "Install Paw..."
 brew cask install paw
+
+fancy_echo "Install dash..."
 brew cask install dash
+
+fancy_echo "Install spotify..."
 brew cask install spotify
+
 brew cask install microsoft-office
 brew cask install skype
 brew cask install the-unarchiver
