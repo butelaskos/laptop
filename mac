@@ -193,7 +193,7 @@ brew_install_or_upgrade 'brew-cask'
 
 brew cask install dropbox
 brew cask install iterm2
-brew cask install u-torrent
+brew cask install utorrent
 brew cask install google-chrome
 brew cask install paw
 brew cask install dash
@@ -201,6 +201,7 @@ brew cask install spotify
 brew cask install microsoft-office
 brew cask install skype
 brew cask install the-unarchiver
+brew cask install gitifier
 
 # Set computer name
 sudo scutil --set ComputerName "SDrive"
