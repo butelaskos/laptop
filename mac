@@ -271,6 +271,9 @@ defaults write com.apple.dock autohide -bool true
 # Set touchpad to click on tap
 sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false
 
+# Set dashboard to be overlay
+defaults write com.apple.dashboard enabled-state -int 3
+
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
