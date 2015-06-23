@@ -220,9 +220,16 @@ brew cask install spotify
 fancy_echo "Install Office..."
 brew cask install microsoft-office
 
+fancy_echo "Install Skype..."
 brew cask install skype
+
+fancy_echo "Install The Unarchiver..."
 brew cask install the-unarchiver
+
+fancy_echo "Install gitifier..."
 brew cask install gitifier
+
+fancy_echo "Install google hangouts..."
 brew cask install google-hangouts
 
 # Set computer name
