@@ -193,6 +193,8 @@ fi
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
 
+git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
+
 brew_install_or_upgrade 'zsh-completions'
 
 brew_tap 'caskroom/cask'
