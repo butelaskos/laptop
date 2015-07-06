@@ -236,6 +236,12 @@ brew cask install gitifier
 fancy_echo "Install google hangouts..."
 brew cask install google-hangouts
 
+fancy_echo "Install Evernote..."
+brew cask install google-hangouts
+
+fancy_echo "Install Slack"
+brew cask install slack
+
 # Set computer name
 sudo scutil --set ComputerName "SDrive"
 sudo scutil --set HostName "SDrive"
