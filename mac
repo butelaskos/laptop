@@ -113,6 +113,11 @@ gem_install_or_update() {
   fi
 }
 
+fancy_echo "Default locale to en_US"
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
     curl -fsS \
@@ -193,7 +198,11 @@ fi
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
 
-git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
+if [ ! -d "$HOME/.scm_breeze" ]; then
+  git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
+else
+  cd ~/.scm_breeze && git pull origin master
+fi
 
 brew_install_or_upgrade 'zsh-completions'
 
