@@ -182,6 +182,7 @@ fancy_echo "Configuring Bundler ..."
   bundle config --global jobs $((number_of_cores - 1))
   
 gem_install_or_update 'rails'
+gem_install_or_update 'git-up'
 
 brew_install_or_upgrade 'heroku-toolbelt'
 
