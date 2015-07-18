@@ -206,6 +206,7 @@ else
 fi
 
 brew_install_or_upgrade 'zsh-completions'
+brew_install_or_upgrade 'tree'
 
 brew_tap 'caskroom/cask'
 brew_install_or_upgrade 'brew-cask'
