@@ -113,6 +113,17 @@ gem_install_or_update() {
   fi
 }
 
+pip_install_or_update() {
+  if pip freeze | cut -d '=' -f 1 | grep "$1" > /dev/null; then
+    fancy_echo "Updating %s ..." "$1"
+    pip install --upgrade "$@"
+  else
+    fancy_echo "Installing %s ..." "$1"
+    pip install "$@"
+    rbenv rehash
+  fi
+}
+
 fancy_echo "Default locale to en_US"
 
 export LC_ALL=en_US.UTF-8
@@ -136,7 +147,10 @@ fi
 fancy_echo "Updating Homebrew formulas ..."
 brew update
 
+brew_install_or_upgrade 'python'
+
 brew_install_or_upgrade 'zsh'
+brew_install_or_upgrade 'cmake'
 brew_install_or_upgrade 'git'
 brew_install_or_upgrade 'hg'
 brew_install_or_upgrade 'postgres'
@@ -169,6 +183,7 @@ eval "$(rbenv init - zsh)"
 
 if ! rbenv versions | grep -Fq "$ruby_version"; then
   rbenv install -s "$ruby_version"
+  ln -s "$(rbenv root)"/versions/"$ruby_version" "$(rbenv root)"/versions/ruby-"$ruby_version"
 fi
 
 rbenv global "$ruby_version"
@@ -185,6 +200,9 @@ fancy_echo "Configuring Bundler ..."
 gem_install_or_update 'rails'
 gem_install_or_update 'git-up'
 
+pip_install_or_update 'psutil'
+pip_install_or_update 'powerline-status'
+
 brew_install_or_upgrade 'heroku-toolbelt'
 
 if ! command -v rcup >/dev/null; then
@@ -199,6 +217,13 @@ fi
 
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
+
+if [ ! -d ~/.vim/bundle/Command-T/ruby/command-t/Makefile ]; then
+  fancy_echo "Configuring CommandT"
+  cd ~/.vim/bundle/Command-T/ruby/command-t && \
+    /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin/ruby extconf.rb && \
+    make
+fi
 
 if [ ! -d "$HOME/.scm_breeze" ]; then
   git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
