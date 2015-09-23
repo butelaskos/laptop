@@ -166,6 +166,17 @@ brew_install_or_upgrade 'imagemagick'
 brew_install_or_upgrade 'qt'
 brew_install_or_upgrade 'hub'
 brew_install_or_upgrade 'node'
+brew_install_or_upgrade 'mariadb'
+unset TMPDIR
+
+
+fancy_echo "Installing MySQL Databases"
+mysql_install_db
+brew_launchctl_restart 'mariadb'
+
+fancy_echo "Setting up MySQL access"
+mysql_secure_installation
+
 
 brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'
