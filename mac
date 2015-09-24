@@ -158,7 +158,6 @@ brew_launchctl_restart 'postgresql'
 brew_install_or_upgrade 'redis'
 brew_launchctl_restart 'redis'
 brew_install_or_upgrade 'the_silver_searcher'
-brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'ctags'
 brew_install_or_upgrade 'tmux'
 brew_install_or_upgrade 'reattach-to-user-namespace'
@@ -166,17 +165,27 @@ brew_install_or_upgrade 'imagemagick'
 brew_install_or_upgrade 'qt'
 brew_install_or_upgrade 'hub'
 brew_install_or_upgrade 'node'
-brew_install_or_upgrade 'mariadb'
-unset TMPDIR
 
+if brew_is_installed "mariadb"; then
+  if brew_is_upgradable "mariadb"; then
+    fancy_echo "Upgrading mariadb"
+    brew upgrade mariadb
+    brew_launchctl_restart 'mariadb'
+  else
+    fancy_echo "Already using the latest version of mariadb. Skipping ..."
+  fi
+else
+  fancy_echo "Installing mariadb"
+  brew install mariadb
 
-fancy_echo "Installing MySQL Databases"
-mysql_install_db
-brew_launchctl_restart 'mariadb'
+  unset TMPDIR
+  fancy_echo "Installing MySQL Databases"
+  mysql_install_db
 
-fancy_echo "Setting up MySQL access"
-mysql_secure_installation
-
+  brew_launchctl_restart 'mariadb'
+  fancy_echo "Setting up MySQL access"
+  mysql_secure_installation
+fi
 
 brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'
@@ -188,7 +197,7 @@ brew_install_or_upgrade 'openssl'
 brew unlink openssl && brew link openssl --force
 brew_install_or_upgrade 'libyaml'
 
-ruby_version="$(curl -sSL http://ruby.thoughtbot.com/latest)"
+ruby_version="2.2.3"
 
 eval "$(rbenv init - zsh)"
 
@@ -200,6 +209,8 @@ fi
 rbenv global "$ruby_version"
 rbenv shell "$ruby_version"
 
+brew_install_or_upgrade 'vim'
+
 gem update --system
 
 gem_install_or_update 'bundler'
@@ -207,10 +218,11 @@ gem_install_or_update 'bundler'
 fancy_echo "Configuring Bundler ..."
   number_of_cores=$(sysctl -n hw.ncpu)
   bundle config --global jobs $((number_of_cores - 1))
-  
+
 gem_install_or_update 'rails'
 gem_install_or_update 'git-up'
 
+pip install --upgrade pip
 pip_install_or_update 'psutil'
 pip_install_or_update 'powerline-status'
 
@@ -229,12 +241,8 @@ fi
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
 
-if [ ! -d ~/.vim/bundle/Command-T/ruby/command-t/Makefile ]; then
-  fancy_echo "Configuring CommandT"
-  cd ~/.vim/bundle/Command-T/ruby/command-t && \
-    /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin/ruby extconf.rb && \
-    make
-fi
+fancy_echo "Configuring CommandT"
+cd ~/.vim/bundle/Command-T/ruby/command-t && ruby extconf.rb && make
 
 if [ ! -d "$HOME/.scm_breeze" ]; then
   git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
