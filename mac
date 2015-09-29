@@ -68,13 +68,13 @@ brew_install_or_upgrade() {
 }
 
 brew_is_installed() {
-  local name="$(brew_expand_alias "$1")"
+  local name=$1
 
   brew list -1 | grep -Fqx "$name"
 }
 
 brew_is_upgradable() {
-  local name="$(brew_expand_alias "$1")"
+  local name=$1
 
   ! brew outdated --quiet "$name" >/dev/null
 }
@@ -222,9 +222,9 @@ fancy_echo "Configuring Bundler ..."
 gem_install_or_update 'rails'
 gem_install_or_update 'git-up'
 
-pip install --upgrade pip
-pip_install_or_update 'psutil'
-pip_install_or_update 'powerline-status'
+# pip install --upgrade pip
+# pip_install_or_update 'psutil'
+# pip_install_or_update 'powerline-status'
 
 brew_install_or_upgrade 'heroku-toolbelt'
 
@@ -241,8 +241,12 @@ fi
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
 
-fancy_echo "Configuring CommandT"
-cd ~/.vim/bundle/Command-T/ruby/command-t && ruby extconf.rb && make
+# if [ ! -d ~/.vim/bundle/Command-T/ruby/command-t/Makefile ]; then
+#   fancy_echo "Configuring CommandT"
+#   cd ~/.vim/bundle/Command-T/ruby/command-t && \
+#     /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin/ruby extconf.rb && \
+#     make
+# fi
 
 if [ ! -d "$HOME/.scm_breeze" ]; then
   git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
