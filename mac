@@ -186,8 +186,6 @@ else
   mysql_install_db
 
   brew_launchctl_restart 'mariadb'
-  fancy_echo "Setting up MySQL access"
-  mysql_secure_installation
 fi
 
 brew_install_or_upgrade 'rbenv'
@@ -225,10 +223,6 @@ fancy_echo "Configuring Bundler ..."
 gem_install_or_update 'rails'
 gem_install_or_update 'git-up'
 
-# pip install --upgrade pip
-# pip_install_or_update 'psutil'
-# pip_install_or_update 'powerline-status'
-
 brew_install_or_upgrade 'heroku-toolbelt'
 
 if ! command -v rcup >/dev/null; then
@@ -243,13 +237,6 @@ fi
 
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
-
-# if [ ! -d ~/.vim/bundle/Command-T/ruby/command-t/Makefile ]; then
-#   fancy_echo "Configuring CommandT"
-#   cd ~/.vim/bundle/Command-T/ruby/command-t && \
-#     /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin/ruby extconf.rb && \
-#     make
-# fi
 
 if [ ! -d "$HOME/.scm_breeze" ]; then
   git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
@@ -280,9 +267,6 @@ brew cask install utorrent
 fancy_echo "Install Google Chrome..."
 brew cask install google-chrome
 
-fancy_echo "Install dash..."
-brew cask install dash
-
 fancy_echo "Install spotify..."
 brew cask install spotify
 
@@ -301,17 +285,19 @@ brew cask install gitifier
 fancy_echo "Install google hangouts..."
 brew cask install google-hangouts
 
-fancy_echo "Install Evernote..."
-brew cask install evernote
-
+fancy_echo "Remember to install via AppStore: "
+fancy_echo "- Paw"
+fancy_echo "- Slack"
+fancy_echo "- Evernote"
 
 fancy_echo "Setting your mac... You may be requested for your sudo pass"
 
+COMPUTER_NAME="SDrive"
 # Set computer name
-sudo scutil --set ComputerName "SDrive"
-sudo scutil --set HostName "SDrive"
-sudo scutil --set LocalHostName "SDrive"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "SDrive"
+sudo scutil --set ComputerName "$COMPUTER_NAME"
+sudo scutil --set HostName "$COMPUTER_NAME"
+sudo scutil --set LocalHostName "$COMPUTER_NAME"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$COMPUTER_NAME"
 
 # Expanding the save panel by default
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
