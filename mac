@@ -254,6 +254,7 @@ brew_install_or_upgrade 'brew-cask'
 
 fancy_echo "Install Fonts..."
 brew cask install font-source-code-pro
+brew cask install font-lato
 
 fancy_echo "Install Dropbox..."
 brew cask install dropbox
