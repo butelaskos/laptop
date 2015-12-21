@@ -223,6 +223,9 @@ fancy_echo "Configuring Bundler ..."
 gem_install_or_update 'rails'
 gem_install_or_update 'git-up'
 
+fancy_echo "Setting up bundler for mysql2 right version"
+bundle config build.mysql2 --with-mysql-config=$(which mysql_config)
+
 brew_install_or_upgrade 'heroku-toolbelt'
 
 if ! command -v rcup >/dev/null; then
