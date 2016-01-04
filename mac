@@ -198,7 +198,7 @@ brew_install_or_upgrade 'openssl'
 brew unlink openssl && brew link openssl --force
 brew_install_or_upgrade 'libyaml'
 
-ruby_version="2.2.3"
+ruby_version="2.3.0"
 
 eval "$(rbenv init - zsh)"
 
