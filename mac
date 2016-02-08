@@ -229,6 +229,7 @@ fancy_echo "Setting up bundler for mysql2 right version"
 bundle config build.mysql2 --with-mysql-config=$(which mysql_config)
 
 brew_install_or_upgrade 'heroku-toolbelt'
+brew_install_or_upgrade 'forego'
 
 if ! command -v rcup >/dev/null; then
   brew_tap 'thoughtbot/formulae'
