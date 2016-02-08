@@ -169,6 +169,9 @@ brew_install_or_upgrade 'qt'
 brew_install_or_upgrade 'hub'
 brew_install_or_upgrade 'node'
 
+brew_tap 'homebrew/versions'
+brew_install_or_upgrade 'ansible19'
+
 if brew_is_installed "mariadb"; then
   if brew_is_upgradable "mariadb"; then
     fancy_echo "Upgrading mariadb"
