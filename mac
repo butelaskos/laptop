@@ -168,9 +168,7 @@ brew_install_or_upgrade 'imagemagick'
 brew_install_or_upgrade 'qt'
 brew_install_or_upgrade 'hub'
 brew_install_or_upgrade 'node'
-
-brew_tap 'homebrew/versions'
-brew_install_or_upgrade 'ansible19'
+brew_install_or_upgrade 'ansible'
 
 if brew_is_installed "mariadb"; then
   if brew_is_upgradable "mariadb"; then
