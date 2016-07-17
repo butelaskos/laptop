@@ -277,6 +277,9 @@ brew cask install utorrent
 fancy_echo "Install Google Chrome..."
 brew cask install google-chrome
 
+fancy_echo "Install Docker Toolbox..."
+brew cask install dockertoolbox
+
 fancy_echo "Install spotify..."
 brew cask install spotify
 
