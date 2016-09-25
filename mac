@@ -165,7 +165,7 @@ brew_install_or_upgrade 'ctags'
 brew_install_or_upgrade 'tmux'
 brew_install_or_upgrade 'reattach-to-user-namespace'
 brew_install_or_upgrade 'imagemagick'
-brew_install_or_upgrade 'qt'
+# brew_install_or_upgrade 'qt'
 brew_install_or_upgrade 'hub'
 brew_install_or_upgrade 'node'
 brew_install_or_upgrade 'ansible'
@@ -195,18 +195,22 @@ brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'
 
 # shellcheck disable=SC2016
-append_to_zshrc 'eval "$(rbenv init - --no-rehash zsh)"' 1
+append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
 
 brew_install_or_upgrade 'openssl'
 brew unlink openssl && brew link openssl --force
 brew_install_or_upgrade 'libyaml'
 
-ruby_version="2.3.0"
+find_latest_ruby() {
+  rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
+}
 
-eval "$(rbenv init - zsh)"
+ruby_version="$(find_latest_ruby)"
+
+eval "$(rbenv init -)"
 
 if ! rbenv versions | grep -Fq "$ruby_version"; then
-  rbenv install -s "$ruby_version"
+  RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl rbenv install -s "$ruby_version"
   ln -s "$(rbenv root)"/versions/"$ruby_version" "$(rbenv root)"/versions/ruby-"$ruby_version"
 fi
 
@@ -259,8 +263,6 @@ brew_install_or_upgrade 'tree'
 brew_tap 'caskroom/cask'
 brew_tap 'caskroom/fonts'
 
-brew_install_or_upgrade 'brew-cask'
-
 fancy_echo "Install Fonts..."
 brew cask install font-source-code-pro
 brew cask install font-lato
@@ -278,22 +280,13 @@ fancy_echo "Install Google Chrome..."
 brew cask install google-chrome
 
 fancy_echo "Install Docker Toolbox..."
-brew cask install dockertoolbox
-
-fancy_echo "Install spotify..."
-brew cask install spotify
-
-fancy_echo "Install Office..."
-brew cask install microsoft-office
+brew cask install docker-toolbox
 
 fancy_echo "Install Skype..."
 brew cask install skype
 
 fancy_echo "Install The Unarchiver..."
 brew cask install the-unarchiver
-
-fancy_echo "Install gitifier..."
-brew cask install gitifier
 
 fancy_echo "Install google hangouts..."
 brew cask install google-hangouts
