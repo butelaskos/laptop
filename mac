@@ -191,6 +191,8 @@ else
   brew_launchctl_restart 'mariadb'
 fi
 
+npm install -g yarnpkg
+
 brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'
 
@@ -237,6 +239,9 @@ bundle config build.mysql2 --with-mysql-config=$(which mysql_config)
 
 brew_install_or_upgrade 'heroku-toolbelt'
 brew_install_or_upgrade 'forego'
+
+brew tap homebrew/science
+brew_install_or_upgrade 'r'
 
 if ! command -v rcup >/dev/null; then
   brew_tap 'thoughtbot/formulae'
@@ -290,6 +295,9 @@ brew cask install the-unarchiver
 
 fancy_echo "Install google hangouts..."
 brew cask install google-hangouts
+
+fancy_echo "Install rstudio..."
+brew cask install rstudio
 
 fancy_echo "Remember to install via AppStore: "
 fancy_echo "- Paw"
