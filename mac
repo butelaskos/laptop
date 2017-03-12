@@ -124,7 +124,7 @@ tap "homebrew/services"
 tap "homebrew/science"
 tap "caskroom/cask"
 tap "caskroom/fonts"
-tap  homebrew/versions"
+tap "homebrew/versions"
 
 # Unix
 brew "ctags"
@@ -218,36 +218,16 @@ fi
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
 
-if [ ! -d "$HOME/.scm_breeze" ]; then
-  git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
-else
-  cd ~/.scm_breeze && git pull origin master
-fi
-
 # fancy_echo "Install Fonts..."
-#  brew cask install font-source-code-pro
-#  brew cask install font-lato
-
-# fancy_echo "Install Dropbox..."
-# brew cask install dropbox
-
-# fancy_echo "Install iTerm 2..."
-# brew cask install iterm2
-
-# fancy_echo "Install uTorrent..."
-# brew cask install utorrent
-
-# fancy_echo "Install Google Chrome..."
-# brew cask install google-chrome
-
-# fancy_echo "Install The Unarchiver..."
-# brew cask install the-unarchiver
-
-# fancy_echo "Install google hangouts..."
-# brew cask install google-hangouts
-
-# fancy_echo "Install rstudio..."
-# brew cask install rstudio
+brew cask install dropbox
+brew cask install font-source-code-pro
+brew cask install font-lato
+brew cask install iterm2
+brew cask install google-chrome
+brew cask install google-hangouts
+brew cask install the-unarchiver
+brew cask install microsoft-office
+brew cask install franz
 
 fancy_echo "Remember to install via AppStore: "
 fancy_echo "- Paw"
@@ -324,6 +304,12 @@ sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking 
 
 # Set dashboard to be overlay
 defaults write com.apple.dashboard enabled-state -int 3
+
+if [ ! -d "$HOME/.scm_breeze" ]; then
+  git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
+else
+  cd ~/.scm_breeze && git pull origin master
+fi
 
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
