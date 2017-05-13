@@ -124,7 +124,6 @@ tap "homebrew/services"
 tap "homebrew/science"
 tap "caskroom/cask"
 tap "caskroom/fonts"
-tap "homebrew/versions"
 
 # Unix
 brew "ctags"
@@ -150,14 +149,26 @@ brew "parity"
 # GitHub
 brew "hub"
 
+# Mac
+brew "mas"
+# mas 'Xcode', id: 497799835
+mas 'Disk Cleaner', id: 970246631
+mas 'Magnet', id: 441258766
+mas 'The Unarchiver', id: 425424353
+mas 'Keynote', id: 409183694
+mas 'Microsoft Remote Desktop', id: 715768417
+mas 'Sip', id: 507257563
+mas '1Password', id: 443987910
+
 # Testing
-brew "qt55"
+brew "qt@5.5"
 
 # Programming languages
 brew "libyaml" # should come after openssl
 brew "node"
 brew "rbenv"
 brew "ruby-build"
+brew "yarn"
 brew "python"
 brew "node"
 brew "ansible"
@@ -173,13 +184,12 @@ brew "mariadb", restart_service: true
 brew "redis", restart_service: true
 EOF
 
-brew link --force qt55
+brew unlink qt@5.5
+brew link --force qt@5.5
 
 brew services stop mariadb
 mysql_install_db
 brew services start mariadb
-
-npm install -g yarnpkg
 
 fancy_echo "Configuring Ruby ..."
 find_latest_ruby() {
@@ -218,6 +228,8 @@ fi
 fancy_echo "Updating rc files..."
 env RCRC=$HOME/dotfiles/rcrc rcup
 
+reset -Q
+
 # fancy_echo "Install Fonts..."
 brew cask install dropbox
 brew cask install font-source-code-pro
@@ -225,9 +237,9 @@ brew cask install font-lato
 brew cask install iterm2
 brew cask install google-chrome
 brew cask install google-hangouts
-brew cask install the-unarchiver
-brew cask install microsoft-office
+# brew cask install microsoft-office
 brew cask install franz
+brew cask install paw
 
 fancy_echo "Remember to install via AppStore: "
 fancy_echo "- Paw"
@@ -236,7 +248,7 @@ fancy_echo "- Evernote"
 
 fancy_echo "Setting your mac... You may be requested for your sudo pass"
 
-COMPUTER_NAME="Moscow"
+COMPUTER_NAME="Tibet"
 # Set computer name
 sudo scutil --set ComputerName "$COMPUTER_NAME"
 sudo scutil --set HostName "$COMPUTER_NAME"
