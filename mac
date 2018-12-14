@@ -81,15 +81,6 @@ case "$SHELL" in
 esac
 
 
-gem_install_or_update() {
-  if gem list "$1" --installed > /dev/null; then
-    gem update "$@"
-  else
-    gem install "$@"
-    rbenv rehash
-  fi
-}
-
 pip_install_or_update() {
   if pip freeze | cut -d '=' -f 1 | grep "$1" > /dev/null; then
     pip install --upgrade "$@"
@@ -124,7 +115,6 @@ tap "homebrew/services"
 tap "homebrew/science"
 tap "caskroom/cask"
 tap "caskroom/fonts"
-
 # Unix
 brew "ctags"
 brew "git"
@@ -134,50 +124,24 @@ brew "rcm"
 brew "reattach-to-user-namespace"
 brew "the_silver_searcher"
 brew "tmux"
-brew "vim"
+brew "sublime-text"
 brew "zsh"
 brew "cmake"
 brew "gpg2"
 brew "gpg-agent"
 brew "zsh-completions"
 brew "tree"
-
-# Heroku
-brew "heroku-toolbelt"
-brew "parity"
-
 # GitHub
 brew "hub"
-
-# Mac
-brew "mas"
-# mas 'Xcode', id: 497799835
-mas 'Disk Cleaner', id: 970246631
-mas 'Magnet', id: 441258766
-mas 'The Unarchiver', id: 425424353
-mas 'Keynote', id: 409183694
-mas 'Microsoft Remote Desktop', id: 715768417
-mas 'Sip', id: 507257563
-mas '1Password', id: 443987910
-
 # Testing
 brew "qt@5.5"
-
 # Programming languages
 brew "libyaml" # should come after openssl
-brew "node"
-brew "rbenv"
-brew "ruby-build"
-brew "yarn"
 brew "python"
 brew "node"
-brew "ansible"
-brew "forego"
 brew "r"
-
 # Image manipulation
 brew "imagemagick"
-
 # Databases
 brew "postgres", restart_service: true
 brew "mariadb", restart_service: true
@@ -191,38 +155,12 @@ brew services stop mariadb
 mysql_install_db
 brew services start mariadb
 
-fancy_echo "Configuring Ruby ..."
-find_latest_ruby() {
-  rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
-}
-
-ruby_version="$(find_latest_ruby)"
-# shellcheck disable=SC2016
-append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
-eval "$(rbenv init -)"
-
-if ! rbenv versions | grep -Fq "$ruby_version"; then
-  RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl rbenv install -s "$ruby_version"
-  ln -s "$(rbenv root)"/versions/"$ruby_version" "$(rbenv root)"/versions/ruby-"$ruby_version"
-fi
-
-rbenv global "$ruby_version"
-rbenv shell "$ruby_version"
-gem update --system
-gem_install_or_update 'bundler'
-number_of_cores=$(sysctl -n hw.ncpu)
-bundle config --global jobs $((number_of_cores - 1))
-
-gem_install_or_update 'rails'
-gem_install_or_update 'capistrano'
-gem_install_or_update 'zeus'
-
 fancy_echo "Setting up bundler for mysql2 right version"
 bundle config build.mysql2 --with-mysql-config=$(which mysql_config)
 
 if [ ! -d "$HOME/dotfiles" ]; then
   fancy_echo "Installing dotfiles ..."
-  git clone git://github.com/jaisonerick/dotfiles.git "$HOME/dotfiles"
+  git clone git://github.com/butelaskos/dotfiles.git "$HOME/dotfiles"
 fi
 
 fancy_echo "Updating rc files..."
@@ -231,24 +169,18 @@ env RCRC=$HOME/dotfiles/rcrc rcup
 reset -Q
 
 # fancy_echo "Install Fonts..."
-brew cask install dropbox
 brew cask install font-source-code-pro
 brew cask install font-lato
 brew cask install iterm2
 brew cask install google-chrome
-brew cask install google-hangouts
-# brew cask install microsoft-office
-brew cask install franz
-brew cask install paw
-
-fancy_echo "Remember to install via AppStore: "
-fancy_echo "- Paw"
-fancy_echo "- Slack"
-fancy_echo "- Evernote"
+brew cask install station
+brew cask install spotify
+brew cask install hyperswitch
+brew cask install mysqlworkbench
 
 fancy_echo "Setting your mac... You may be requested for your sudo pass"
 
-COMPUTER_NAME="Tibet"
+COMPUTER_NAME="Gojira"
 # Set computer name
 sudo scutil --set ComputerName "$COMPUTER_NAME"
 sudo scutil --set HostName "$COMPUTER_NAME"
@@ -292,18 +224,6 @@ defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 # Automatically quit printer app once the print jobs complete
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-# Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-
-# Add ability to toggle between Light and Dark mode in Yosemite using ctrl+opt+cmd+t?
-sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
-
-# Disable the sudden motion sensor (it's not useful for SSDs/current MacBooks)
-sudo pmset -a sms 0
-
-# Disable auto-correct
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-
 # Requiring password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
@@ -313,9 +233,6 @@ defaults write com.apple.dock autohide -bool true
 
 # Set touchpad to click on tap
 sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false
-
-# Set dashboard to be overlay
-defaults write com.apple.dashboard enabled-state -int 3
 
 if [ ! -d "$HOME/.scm_breeze" ]; then
   git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
